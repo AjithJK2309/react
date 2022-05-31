@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{useState} from "react";
 import './component.css';
 import {userContext} from '../App.js';
 import FeedbackList from './feedback-list';
@@ -6,11 +6,10 @@ import FeedbackList from './feedback-list';
 export default function Feedback(){
     const data = React.useContext(userContext)
     const rating = [1,2,3,4,5,6,7,8,9,10]
-    const [count,setCount]=useState('')
-    const [message,setMessage]=useState('')
+    const [feed,setFeed]=useState({count:'',message:''})
     const ratedValue=(val,e)=>{
         e.preventDefault()
-        if(count!=''){
+        if(feed.count!==''){
             for(let i=0;i<rating.length;i++){
                 if(val<=i){
                     var element1 = document.getElementsByClassName('rate-btn')[i]
@@ -18,7 +17,10 @@ export default function Feedback(){
                 }                
             }
         }
-        setCount(val)
+        setFeed(prevState => ({
+            ...prevState,
+            count: val
+        }));
         for(let i=0;i<val;i++){
             var element = document.getElementsByClassName('rate-btn')[i]
             element.classList.add('active')
@@ -27,9 +29,8 @@ export default function Feedback(){
 
     const submitClick=(e)=>{
         e.preventDefault()
-        data.push({count:count,message:message})
-        setCount('')
-        setMessage('')
+        data.push(feed)
+        setFeed((prevState)=>({...prevState,count:'',message:''}))
         for(let i=0;i<rating.length;i++){
                 var element1 = document.getElementsByClassName('rate-btn')[i]
                 element1.classList.remove('active')                         
@@ -50,9 +51,9 @@ export default function Feedback(){
                                     </fieldset>                                         
                                 </span>
                                 <label className="rate-head mt-2 mb-2">Message</label>
-                                <textarea className='form-control' value={message} onChange={(e)=>{setMessage(e.target.value)}}  />
+                                <textarea className='form-control' value={feed.message} onChange={(e)=>{setFeed((previousState)=>({...previousState,message:e.target.value}))}}  />
                                 <br />
-                                <button disabled={count==''|| message==''} className="sub-btn btn btn-primary" onClick={submitClick}>SUBMIT</button>
+                                <button disabled={feed.count===''|| feed.message===''} className="sub-btn btn btn-primary" onClick={submitClick}>SUBMIT</button>
                             </div>
                         </form>                        
                     </div>
