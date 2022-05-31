@@ -25,6 +25,7 @@ export default function FeedbackList(){
     // Feedback modal close
     const modalClose=(val)=>{
         val==='edit'?setBool((prevState)=>({...prevState,edit:false})):setBool((prevState)=>({...prevState,delete:false}))
+        setFeed((prevState)=>({...prevState,message:''}))
     }
 
     // Delete feedback in global array
@@ -99,7 +100,7 @@ export default function FeedbackList(){
                                                             <input className="form-control" value={feed.message} onChange={(e)=>{setFeed((prevState)=>({...prevState,message:e.target.value}))}} ></input>
                                                         </Modal.Body>
                                                         <Modal.Footer>
-                                                            <Button variant="outline-secondary" onClick={(e)=>feedChange(e)}>Submit</Button>
+                                                            <Button variant="outline-secondary" disabled={feed.message===''} onClick={(e)=>feedChange(e)}>Submit</Button>
                                                             <Button variant="outline-danger" onClick={()=>modalClose('edit')}>Close</Button>
                                                         </Modal.Footer>
                                                     </Modal>
