@@ -6,26 +6,41 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 
 export default function FeedbackList(){
+    // Getting Data in User Context
     const data = React.useContext(userContext)
+
+    // Static rating values
     const rating = [1,2,3,4,5,6,7,8,9,10]
+
+    // State management for feedback
     const [modalBool,setBool]=useState({edit:false,delete:false})
     const [feed,setFeed]=useState({count:'',message:'',index:''})
+
+    // Feedback modal open
     const modalOpen=(val,data,i)=>{
         setFeed((prevState)=>({...prevState,count:data.count,message:data.message,index:i}))
         val==='edit'?setBool((prevState)=>({...prevState,edit:true})):setBool((prevState)=>({...prevState,delete:true}))
     }
+
+    // Feedback modal close
     const modalClose=(val)=>{
         val==='edit'?setBool((prevState)=>({...prevState,edit:false})):setBool((prevState)=>({...prevState,delete:false}))
     }
+
+    // Delete feedback in global array
     const removeFeed=()=>{
         data.splice(feed.index,1)
         setBool((prevState)=>({...prevState,delete:false}))
     }
+
+    // Edit feedback in global array
     const feedChange=(e)=>{
         data[feed.index]={count:feed.count , message:feed.message}
         e.preventDefault();
         setBool((prevState)=>({...prevState,edit:false}))
     }
+
+    // Storing a rated count
     const countChange=(e)=>{
         setFeed((prevState)=>({...prevState,count:parseInt(e.target.value)}))
     }

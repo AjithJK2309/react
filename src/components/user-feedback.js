@@ -4,9 +4,16 @@ import {userContext} from '../App.js';
 import FeedbackList from './feedback-list';
 
 export default function Feedback(){
+    // Getting Data in User Context
     const data = React.useContext(userContext)
+
+    // Static rating values
     const rating = [1,2,3,4,5,6,7,8,9,10]
+
+    // State management for user feedback
     const [feed,setFeed]=useState({count:'',message:''})
+
+    // Getting user given feedback information
     const ratedValue=(val,e)=>{
         e.preventDefault()
         if(feed.count!==''){
@@ -27,6 +34,7 @@ export default function Feedback(){
         }
     }
 
+    // Storing feedback in context array
     const submitClick=(e)=>{
         e.preventDefault()
         data.push(feed)
