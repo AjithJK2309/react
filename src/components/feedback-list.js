@@ -1,13 +1,13 @@
 import React,{useState} from "react";
-import {userContext} from '../App.js';
 import Modal from "react-bootstrap/Modal";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
+import { globalContext } from "../helper/globalContext.js";
 
 export default function FeedbackList(){
     // Getting Data in User Context
-    const data = React.useContext(userContext)
+    const feedData = React.useContext(globalContext)
 
     // Static rating values
     const rating = [1,2,3,4,5,6,7,8,9,10]
@@ -30,13 +30,13 @@ export default function FeedbackList(){
 
     // Delete feedback in global array
     const removeFeed=()=>{
-        data.splice(feed.index,1)
+        feedData.deleteFeedback(feed.index)
         setBool((prevState)=>({...prevState,delete:false}))
     }
 
     // Edit feedback in global array
     const feedChange=(e)=>{
-        data[feed.index]={count:feed.count , message:feed.message}
+        feedData.editFeedback({count:feed.count , message:feed.message},feed.index)
         e.preventDefault();
         setBool((prevState)=>({...prevState,edit:false}))
     }
@@ -46,8 +46,8 @@ export default function FeedbackList(){
         setFeed((prevState)=>({...prevState,count:parseInt(e.target.value)}))
     }
     return(
-        <>
-        {data.length !==0 && (
+        <React.Fragment>
+        {feedData.state.data.length !==0 && (
             <div className="container">
                 <div className="row">
                     <div className="col-md-8 feed-box-2">
@@ -62,7 +62,7 @@ export default function FeedbackList(){
                                 </tr>
                             </thead>
                             <tbody>                                
-                                    {data.map((val,index)=>{
+                                    {feedData.state.data.map((val,index)=>{
                                         return (
                                             <tr key={index}>
                                               <td>{index+1}</td>
@@ -127,6 +127,6 @@ export default function FeedbackList(){
                 </div>
             </div>
             )}                       
-        </>
+        </React.Fragment>
     )
 }

@@ -1,11 +1,11 @@
 import React,{useState} from "react";
 import './component.css';
-import {userContext} from '../App.js';
 import FeedbackList from './feedback-list';
+import { globalContext } from "../helper/globalContext";
 
 export default function Feedback(){
     // Getting Data in User Context
-    const data = React.useContext(userContext)
+    const datas = React.useContext(globalContext)
 
     // Static rating values
     const rating = [1,2,3,4,5,6,7,8,9,10]
@@ -37,7 +37,7 @@ export default function Feedback(){
     // Storing feedback in context array
     const submitClick=(e)=>{
         e.preventDefault()
-        data.push(feed)
+        datas.addFeedback(feed)
         setFeed((prevState)=>({...prevState,count:'',message:''}))
         for(let i=0;i<rating.length;i++){
                 var element1 = document.getElementsByClassName('rate-btn')[i]
