@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -8,6 +8,16 @@ import { globalContext } from "../helper/globalContext.js";
 export default function FeedbackList(){
     // Getting Data in User Context
     const feedData = React.useContext(globalContext)
+    const [data,setData]=useState([])
+
+    // get All
+    useEffect(()=>{
+        feedData.allFeedback();
+        setData(feedData.state.data)
+        console.log(feedData.state.data)
+        console.log(data,'ddd')
+    },[])    
+    
 
     // Static rating values
     const rating = [1,2,3,4,5,6,7,8,9,10]
@@ -16,9 +26,11 @@ export default function FeedbackList(){
     const [modalBool,setBool]=useState({edit:false,delete:false})
     const [feed,setFeed]=useState({count:'',message:'',index:''})
 
+    
+
     // Feedback modal open
-    const modalOpen=(val,data,i)=>{
-        setFeed((prevState)=>({...prevState,count:data.count,message:data.message,index:i}))
+    const modalOpen=(val,data)=>{
+        setFeed((prevState)=>({...prevState,count:data.count,message:data.message,index:data.id}))
         val==='edit'?setBool((prevState)=>({...prevState,edit:true})):setBool((prevState)=>({...prevState,delete:true}))
     }
 
@@ -47,7 +59,7 @@ export default function FeedbackList(){
     }
     return(
         <React.Fragment>
-        {feedData.state.data.length !==0 && (
+        {data?.length!==0 && (
             <div className="container">
                 <div className="row">
                     <div className="col-md-8 feed-box-2">
@@ -62,7 +74,7 @@ export default function FeedbackList(){
                                 </tr>
                             </thead>
                             <tbody>                                
-                                    {feedData.state.data.map((val,index)=>{
+                                    { data?.map((val,index)=>{
                                         return (
                                             <tr key={index}>
                                               <td>{index+1}</td>
@@ -104,7 +116,7 @@ export default function FeedbackList(){
                                                             <Button variant="outline-danger" onClick={()=>modalClose('edit')}>Close</Button>
                                                         </Modal.Footer>
                                                     </Modal>
-                                                    <button onClick={()=>modalOpen('delete',val,index)} className="btn btn-danger mx-2">Delete</button>
+                                                    <button onClick={()=>modalOpen('delete',val)} className="btn btn-danger mx-2">Delete</button>
                                                     <Modal show={modalBool.delete}>
                                                         <Modal.Header>
                                                             Delete Feedback

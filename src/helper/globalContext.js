@@ -11,8 +11,16 @@ export const globalContext = createContext(initialState)
 
 // data provider
 export  const GlobalManage=({children})=>{
+
     // reducer creation
     const [state,dispatch] = useReducer(Reducer,initialState);
+
+    // get all feedback
+    function allFeedback(){
+        dispatch({
+            type:'GET_FEEDBACK'
+        })
+    }
 
     // actions for call the reducer function using dispatch
     function addFeedback(val){
@@ -38,7 +46,7 @@ export  const GlobalManage=({children})=>{
 
     // providing data globally
     return(
-        <globalContext.Provider value={{state,addFeedback,editFeedback,deleteFeedback}}>
+        <globalContext.Provider value={{state,allFeedback,addFeedback,editFeedback,deleteFeedback}}>
                 {children}
         </globalContext.Provider>
     )
