@@ -6,7 +6,7 @@ import { base_url } from "../helper/Constants";
 
 export default function Feedback(){
     // Getting Data in User Context
-    const datas = React.useContext(globalContext)
+    const contextData = React.useContext(globalContext)
 
     // Static rating values
     const rating = [1,2,3,4,5,6,7,8,9,10]
@@ -37,7 +37,7 @@ export default function Feedback(){
 
     // getting all data from json server
     const getAllData=async()=>{
-        await fetch(base_url).then((res)=>res.json()).then((data)=>datas.allFeedback(data));
+        await fetch(base_url).then((res)=>res.json()).then((data)=>contextData.allFeedback(data));
     }
 
     // updating data using useEffect life cycle hook
@@ -48,7 +48,7 @@ export default function Feedback(){
     // Storing feedback in context array
     const submitClick=(e)=>{
         e.preventDefault();
-        datas.addFeedback(feed)
+        contextData.addFeedback(feed)
         reset(e);
     }
 

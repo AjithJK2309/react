@@ -8,7 +8,7 @@ import { base_url } from "../helper/Constants.js";
 
 export default function FeedbackList(){
     // Getting Data in User Context
-    const feedData = React.useContext(globalContext)
+    const contextData = React.useContext(globalContext)
 
     // State management for feedback
     const [modalBool,setBool]=useState({edit:false,delete:false})
@@ -16,7 +16,7 @@ export default function FeedbackList(){
 
     // getting all data from json server
     const getAllData=async()=>{
-        await fetch(base_url).then((res)=>res.json()).then((data)=>feedData.allFeedback(data));
+        await fetch(base_url).then((res)=>res.json()).then((data)=>contextData.allFeedback(data));
     }
 
     // updating data using useEffect life cycle hook
@@ -40,14 +40,14 @@ export default function FeedbackList(){
 
     // Delete feedback in global array
     const removeFeed=()=>{
-        feedData.deleteFeedback(feed.id)     
+        contextData.deleteFeedback(feed.id)     
         setBool((prevState)=>({...prevState,delete:false}))
         setFeed((prevState)=>({...prevState,count:'',message:'',id:''}))
     }
 
     // Edit feedback in global array
     const feedChange=(e)=>{
-        feedData.editFeedback({count:feed.count , message:feed.message},feed.id)
+        contextData.editFeedback({count:feed.count , message:feed.message},feed.id)
         setBool((prevState)=>({...prevState,edit:false}))
         setFeed((prevState)=>({...prevState,count:'',message:'',id:''}))
     }
@@ -58,7 +58,7 @@ export default function FeedbackList(){
     }
     return(
         <React.Fragment>
-        { feedData.state.data?.length !==0 && (
+        { contextData.state.data?.length !==0 && (
             <div className="container">
                 <div className="row">
                     <div className="col-md-8 feed-box-2">
@@ -73,7 +73,7 @@ export default function FeedbackList(){
                                 </tr>
                             </thead>
                             <tbody>                                
-                                    { feedData.state.data?.map((val,index)=>{
+                                    { contextData.state.data?.map((val,index)=>{
                                         return (
                                             <tr key={index}>
                                               <td>{index+1}</td>
