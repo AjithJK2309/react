@@ -1,12 +1,12 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import './component.css';
 import FeedbackList from './feedback-list';
 import { globalContext } from "../helper/globalContext";
+import { base_url } from "../helper/Constants";
 
 export default function Feedback(){
     // Getting Data in User Context
     const datas = React.useContext(globalContext)
-
 
     // Static rating values
     const rating = [1,2,3,4,5,6,7,8,9,10]
@@ -35,10 +35,26 @@ export default function Feedback(){
         }
     }
 
+    // getting all data from json server
+    const getAllData=async()=>{
+        await fetch(base_url).then((res)=>res.json()).then((data)=>datas.allFeedback(data));
+    }
+
+    // updating data using useEffect life cycle hook
+    useEffect(()=>{
+            getAllData();
+    },[feed])
+
     // Storing feedback in context array
     const submitClick=(e)=>{
-        e.preventDefault()
+        e.preventDefault();
         datas.addFeedback(feed)
+        reset(e);
+    }
+
+    // reset the feedback form
+    const reset=(e)=>{
+        e.preventDefault();
         setFeed((prevState)=>({...prevState,count:'',message:''}))
         for(let i=0;i<rating.length;i++){
                 var element1 = document.getElementsByClassName('rate-btn')[i]
@@ -46,7 +62,7 @@ export default function Feedback(){
         }
     }
     return(
-        <>
+        <React.Fragment>
             <div className="container">
                 <div className="row feed-box">
                     <div className="col-md-8">
@@ -62,7 +78,8 @@ export default function Feedback(){
                                 <label className="rate-head mt-2 mb-2">Message</label>
                                 <textarea className='form-control' value={feed.message} onChange={(e)=>{setFeed((previousState)=>({...previousState,message:e.target.value}))}}  />
                                 <br />
-                                <button disabled={feed.count===''|| feed.message===''} className="sub-btn btn btn-primary" onClick={submitClick}>SUBMIT</button>
+                                <button disabled={feed.count===''&& feed.message===''} className="reset-btn btn btn-success px-2" onClick={reset}>RESET</button>
+                                <button disabled={feed.count===''|| feed.message===''} className="sub-btn btn btn-primary mx-2 px-2" onClick={submitClick}>SUBMIT</button>
                             </div>
                         </form>                        
                     </div>
@@ -71,6 +88,6 @@ export default function Feedback(){
                     </div>
                 </div>
             </div>
-        </>
+        </React.Fragment>
     )
 }

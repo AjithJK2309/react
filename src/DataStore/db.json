@@ -1,34 +1,3 @@
 {
-  "data": [
-    {
-      "count": 3,
-      "message": "jkjk",
-      "id": 4
-    },
-    {
-      "count": 5,
-      "message": "gooddd",
-      "id": 5
-    },
-    {
-      "count": 4,
-      "message": "okkkk",
-      "id": 6
-    },
-    {
-      "count": 8,
-      "message": "bestt",
-      "id": 7
-    },
-    {
-      "count": 3,
-      "message": "gfgf",
-      "id": 8
-    },
-    {
-      "count": 5,
-      "message": "kjkjk",
-      "id": 11
-    }
-  ]
+  "data": []
 }

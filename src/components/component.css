@@ -65,6 +65,21 @@
     margin-bottom: 10px;
     cursor: pointer;
 }
+.reset-btn{
+    background-color: rgb(10, 136, 107);
+    padding: 10px;
+    padding-inline: 20px;
+    color: white;
+    border: none;
+    outline: none;
+    font-weight: 700;
+    border: none !important;
+    border-radius: 8px;
+    position: relative;
+    right: -40%;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
 table tr th,td{
     padding-inline: 30px;
     text-align: center;
@@ -72,4 +87,8 @@ table tr th,td{
 }
 .action{
     display: flex;
+}
+.message-word{
+    inline-size: 120px;
+    overflow-wrap: break-word;
 }

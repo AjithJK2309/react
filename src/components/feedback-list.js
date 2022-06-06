@@ -1,56 +1,55 @@
-import React,{useEffect, useState} from "react";
+import React,{ useState,useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 import { globalContext } from "../helper/globalContext.js";
+import { base_url } from "../helper/Constants.js";
 
 export default function FeedbackList(){
     // Getting Data in User Context
     const feedData = React.useContext(globalContext)
-    const [data,setData]=useState([])
-
-    // get All
-    useEffect(()=>{
-        feedData.allFeedback();
-        setData(feedData.state.data)
-        console.log(feedData.state.data)
-        console.log(data,'ddd')
-    },[])    
-    
-
-    // Static rating values
-    const rating = [1,2,3,4,5,6,7,8,9,10]
 
     // State management for feedback
     const [modalBool,setBool]=useState({edit:false,delete:false})
-    const [feed,setFeed]=useState({count:'',message:'',index:''})
+    const [feed,setFeed]=useState({})
 
-    
+    // getting all data from json server
+    const getAllData=async()=>{
+        await fetch(base_url).then((res)=>res.json()).then((data)=>feedData.allFeedback(data));
+    }
+
+    // updating data using useEffect life cycle hook
+    useEffect(()=>{
+        getAllData()        
+    },[feed])
+
+    // Static rating values
+    const rating = [1,2,3,4,5,6,7,8,9,10]    
 
     // Feedback modal open
-    const modalOpen=(val,data)=>{
-        setFeed((prevState)=>({...prevState,count:data.count,message:data.message,index:data.id}))
-        val==='edit'?setBool((prevState)=>({...prevState,edit:true})):setBool((prevState)=>({...prevState,delete:true}))
+    const modalOpen=(val,data)=>{       
+        setBool((prevState)=>({...prevState,[val]:true}))           
+        setFeed(data)       
     }
 
     // Feedback modal close
     const modalClose=(val)=>{
-        val==='edit'?setBool((prevState)=>({...prevState,edit:false})):setBool((prevState)=>({...prevState,delete:false}))
-        setFeed((prevState)=>({...prevState,message:''}))
+        setBool((prevState)=>({...prevState,[val]:false}))
     }
 
     // Delete feedback in global array
     const removeFeed=()=>{
-        feedData.deleteFeedback(feed.index)
+        feedData.deleteFeedback(feed.id)     
         setBool((prevState)=>({...prevState,delete:false}))
+        setFeed((prevState)=>({...prevState,count:'',message:'',id:''}))
     }
 
     // Edit feedback in global array
     const feedChange=(e)=>{
-        feedData.editFeedback({count:feed.count , message:feed.message},feed.index)
-        e.preventDefault();
+        feedData.editFeedback({count:feed.count , message:feed.message},feed.id)
         setBool((prevState)=>({...prevState,edit:false}))
+        setFeed((prevState)=>({...prevState,count:'',message:'',id:''}))
     }
 
     // Storing a rated count
@@ -59,7 +58,7 @@ export default function FeedbackList(){
     }
     return(
         <React.Fragment>
-        {data?.length!==0 && (
+        { feedData.state.data?.length !==0 && (
             <div className="container">
                 <div className="row">
                     <div className="col-md-8 feed-box-2">
@@ -74,12 +73,12 @@ export default function FeedbackList(){
                                 </tr>
                             </thead>
                             <tbody>                                
-                                    { data?.map((val,index)=>{
+                                    { feedData.state.data?.map((val,index)=>{
                                         return (
                                             <tr key={index}>
                                               <td>{index+1}</td>
                                               <td>{ val.count }</td>
-                                              <td>{ val.message }</td>
+                                              <td><div className="message-word">{ val.message }</div></td>
                                               <td className="action">
                                                     <button className="btn btn-info" onClick={()=>modalOpen('edit',val,index)} data-toggle="modal" data-target="exampleModal">Edit</button>
                                                     <Modal show={modalBool.edit}>

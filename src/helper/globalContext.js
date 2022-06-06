@@ -1,24 +1,27 @@
 import React,{createContext,useReducer} from "react";
 import Reducer from "./reducer";
 
-// global state
-const initialState = {
-    data:[]
-}
+
 
 // context creation
-export const globalContext = createContext(initialState)
+export const globalContext = createContext()
 
 // data provider
 export  const GlobalManage=({children})=>{
 
+    // global state
+    const initialState = {
+        data:[]
+    }
+
     // reducer creation
     const [state,dispatch] = useReducer(Reducer,initialState);
 
-    // get all feedback
-    function allFeedback(){
+    // getAll Feedback
+    function allFeedback(val){
         dispatch({
-            type:'GET_FEEDBACK'
+            type:'GET_FEEDBACK',
+            payload:val
         })
     }
 
@@ -37,12 +40,13 @@ export  const GlobalManage=({children})=>{
         })
     }
 
-    function deleteFeedback(index){
+    function deleteFeedback(id){
         dispatch({
             type:'DELETE_FEEDBACK',
-            payload:index
+            payload:id
         })
     }
+
 
     // providing data globally
     return(
