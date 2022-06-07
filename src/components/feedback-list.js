@@ -24,7 +24,7 @@ export default function FeedbackList(){
         getAllData()        
     },[feed])
 
-    // Static rating values
+    // Static rating values ★★★★★★★★★★
     const rating = [1,2,3,4,5,6,7,8,9,10]    
 
     // Feedback modal open

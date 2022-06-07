@@ -8,7 +8,7 @@ export default function Feedback(){
     // Getting Data in User Context
     const contextData = React.useContext(globalContext)
 
-    // Static rating values
+    // Static rating values ★★★★★★★★★★
     const rating = [1,2,3,4,5,6,7,8,9,10]
 
     // State management for user feedback
