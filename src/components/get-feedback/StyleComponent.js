@@ -58,7 +58,7 @@ export const SubmitButton = styled.button`
     font-weight: 700;
     border-radius: 8px;
     position: relative;
-    right: -40%;
+    right: -34%;
     margin-bottom: 10px;
     cursor: pointer;
     &:hover{
@@ -66,6 +66,7 @@ export const SubmitButton = styled.button`
     }
     &:disabled{
         cursor: not-allowed;
+        opacity: 0.65;
         &:hover{
             background-image: linear-gradient(to bottom right, ${props => props.theme.colors.green} 30%, ${props => props.theme.colors.lightGreen});
         }
