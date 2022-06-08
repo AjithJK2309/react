@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from "react";
-import './component.css';
-import FeedbackList from './feedback-list';
-import { globalContext } from "../helper/globalContext";
-import { base_url } from "../helper/Constants";
+import '../component.css';
+import FeedbackList from '../feedback-list/feedback-list';
+import { globalContext } from "../../helper/globalContext";
+import { base_url } from "../../helper/Constants";
+import { FeedBox,Header,Rating,Label,RatingButton,SubmitButton,ResetButton } from "./StyleComponent";
 
 export default function Feedback(){
     // Getting Data in User Context
@@ -64,29 +65,31 @@ export default function Feedback(){
     return(
         <React.Fragment>
             <div className="container">
-                <div className="row feed-box">
-                    <div className="col-md-8">
-                        <h1 className="head">Feedback</h1>
-                        <form>
-                            <div className="rating mt-4">
-                                <label className="rate-head mt-2">Rating</label>
-                                <span> 
-                                    <fieldset className="values mt-1">                                  
-                                        {rating.map((val,index)=><h3 key={index} className="rate-btn btn btn-secondary btn-sm px-3 mx-1 mt-2" onClick={(e)=>ratedValue(val,e)}>{val}</h3>)} 
-                                    </fieldset>                                         
-                                </span>
-                                <label className="rate-head mt-2 mb-2">Message</label>
-                                <textarea className='form-control' value={feed.message} onChange={(e)=>{setFeed((previousState)=>({...previousState,message:e.target.value}))}}  />
-                                <br />
-                                <button disabled={feed.count===''&& feed.message===''} className="reset-btn btn btn-success px-2" onClick={reset}>RESET</button>
-                                <button disabled={feed.count===''|| feed.message===''} className="sub-btn btn btn-primary mx-2 px-2" onClick={submitClick}>SUBMIT</button>
-                            </div>
-                        </form>                        
-                    </div>
+            <FeedBox>
+                <div className="row">                    
+                        <div className="col-md-8">                        
+                                <Header>Feedback</Header>
+                                <form>
+                                    <Rating>
+                                        <Label>Rating</Label>
+                                        <span> 
+                                            <fieldset className="d-flex mt-1">                                  
+                                                {rating.map((val,index)=><RatingButton key={index} className="rate-btn" onClick={(e)=>ratedValue(val,e)}>{val}</RatingButton>)} 
+                                            </fieldset>                                         
+                                        </span>
+                                        <Label>Message</Label>
+                                        <textarea className='form-control' value={feed.message} onChange={(e)=>{setFeed((previousState)=>({...previousState,message:e.target.value}))}}  />
+                                        <br />
+                                        <ResetButton disabled={feed.count===''&& feed.message===''} onClick={reset}>RESET</ResetButton>
+                                        <SubmitButton disabled={feed.count===''|| feed.message===''} onClick={submitClick}>SUBMIT</SubmitButton>
+                                    </Rating>
+                                </form>                                                
+                        </div>                    
                     <div>
                         <FeedbackList></FeedbackList>
                     </div>
                 </div>
+                </FeedBox>
             </div>
         </React.Fragment>
     )

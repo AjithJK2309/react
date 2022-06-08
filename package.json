@@ -12,6 +12,7 @@
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
+    "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -25,9 +26,11 @@
       "react-app",
       "react-app/jest"
     ],
-    "plugins": ["react-hooks"],
+    "plugins": [
+      "react-hooks"
+    ],
     "rules": {
-    "react-hooks/exhaustive-deps": 0
+      "react-hooks/exhaustive-deps": 0
     }
   },
   "browserslist": {
